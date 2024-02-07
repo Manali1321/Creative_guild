@@ -28,8 +28,4 @@ Route::get('/', function () {
 });
 
 // Define routes that require CORS headers within this group
-Route::post('/login', [UsersController::class, 'login'])->middleware('guest');
-Route::post('/signup', [UsersController::class, 'signup'])->middleware('guest');
-Route::get('/user/{user}', [AlbumsController::class, 'profile'])->middleware('guest');
-
 
