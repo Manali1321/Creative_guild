@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ResetPasswordMail;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
-    //
     public function reset_password(Request $request)
     {
-        // Validate the incoming request data
         $request->validate([
-            'email' => 'required|email'
+            'email' => 'required|email|exists:users,email',
         ]);
 
-        // Send the password reset email
-        $response = Password::sendResetLink($request->only('email'));
+        $user = User::where('email', $request->email)->first();
 
-        // Check the response and redirect accordingly
-        return $response == Password::RESET_LINK_SENT
-            ? back()->with('status', trans($response))
-            : back()->withErrors(['email' => trans($response)]);
-    }
+        $token = Password::createToken($user);
 
-    public function broker()
-    {
-        return Password::broker();
+
+        // Send password reset email
+        Mail::to($user->email)->send(new ResetPasswordMail($token));
+
+        return response()->json(['message' => 'Password reset email sent successfully'], 200);
     }
 
 }
+

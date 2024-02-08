@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Password;
 
 class ChangePasswordController extends Controller
 {
-    //
+
     // Method for changing password after receiving token
-    public function changePassword(Request $request)
+    public function change_password(Request $request)
     {
         // Validate the incoming request data
         $request->validate([
