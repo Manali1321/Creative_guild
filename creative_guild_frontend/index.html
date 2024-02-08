@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/cg-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creative guild</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
+<style scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    background: linear-gradient(45deg, rgba(254, 204, 135, 1) 10%, rgba(255, 143, 135, 1) 90%);
+  }
+
+  .primary-font {
+    font-weight: 400;
+    font-size: 28px;
+    margin: 10px 0px;
+  }
+
+  .secondary-font {
+    font-weight: 300;
+    font-size: 12px;
+    margin: 0px;
+  }
+
+  .signup-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0px;
+    flex-wrap: wrap;
+  }
+
+  .cg-link {
+    color: #ff6c62;
+    text-decoration: none;
+  }
+
+  .wrapper-signin {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    max-width: 50%;
+    border-radius: 5px;
+    padding: 40px 80px;
+  }
+
+  .form-group {
+    width: 48%;
+    margin-bottom: 15px;
+  }
+
+  .logo {
+    width: 25%;
+  }
+
+  .form-container {
+    width: 100%;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cg-label {
+    font-weight: 300;
+    font-size: 12px;
+  }
+
+  .cg-input {
+    width: 100%;
+    padding: 10px;
+    margin: 7px 10px 7px 0px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+
+  .password-input-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  #email::placeholder,
+  #password::placeholder,
+  #name::placeholder,
+  #phone::placeholder,
+  #cpassword::placeholder,
+  #bio::placeholder {
+    color: rgb(179, 179, 179);
+  }
+
+  .eye-icon {
+    cursor: pointer;
+    user-select: none;
+    font-size: 1.2em;
+    margin-left: -50px;
+  }
+
+  .cg-button {
+    background-color: #ff6c62;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+
+  .secondary-font.cg-button-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .error-message {
+    color: red;
+    padding: 10px 0;
+  }
+
+  @media (max-width: 1480px) {
+    .form-group {
+      width: 45%; /* Set the width of form groups to fit two on each line */
+      margin-bottom: 15px; /* Add some space between form groups */
+    }
+  }
+
+  @media (max-width: 767px) {
+    .primary-font {
+      font-size: 20px;
+    }
+    .secondary-font {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .signup-wrapper {
+      flex-direction: column;
+    }
+    .form-group {
+      width: 80%; /* Set the width of form groups to fit two on each line */
+      margin-bottom: 5px; /* Add some space between form groups */
+    }
+    .primary-font {
+      font-size: 18px;
+    }
+  }
+</style>
