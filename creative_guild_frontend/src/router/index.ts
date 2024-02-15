@@ -24,7 +24,7 @@ const router = createRouter({
       component: SignupView
     },
     {
-      path: '/change_password',
+      path: '/change_password/:email',
       name: 'changePassword',
       component: ChangePasswordView
     },

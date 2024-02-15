@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Mail\SignUpMail;
 
 
 class UsersController extends Controller
@@ -92,57 +94,10 @@ class UsersController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        Mail::to($user->email)->send(new SignUpMail($user));
+
         // Return a success response
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
 }
-// $user = $request->user();
-
-// // Generate a token for the authenticated user
-// $token = $user->createToken('Personal Access Token')->plainTextToken;
-
-// // Return a response with the access token and user details
-// return response()->json([
-//     'message' => 'Authenticated',
-//     'access_token' => $token,
-//     'user' => $user,
-// ]);
-
-// // Generate a JWT token without an expiry
-// $token = JWTAuth::fromUser($user);
-
-// // Return a response indicating successful authentication
-// return response()->json([
-//     'message' => 'Authenticated',
-//     'user' => $user,
-//     'token' => $token
-// ]);
-
-// $user = $request->user(); // Assuming you have already authenticated the user
-
-// // Generate a token for the authenticated user
-// $tokenResult = $user->createToken('Personal Access Token');
-
-// // Retrieve the generated token
-// $accessToken = $tokenResult->accessToken;
-
-// // Determine token expiration (example: 1 week from now)
-// $expiresAt = Carbon::now()->addWeeks(1);
-
-// // Set the expiration time for the token
-// $token = $tokenResult->token;
-// $token->expires_at = $expiresAt;
-// $token->save();
-
-// // Return a response with the access token, token type, expiration time, user ID, and user data
-// return response()->json([
-//     'access_token' => $accessToken,
-//     'token_type' => 'Bearer',
-//     'expires_at' => Carbon::parse($expiresAt)->toDateTimeString(),
-//     'user_id' => $user->id,
-//     'user' => $user, // Include the user data in the response
-// ]);
-// }
-
-
 

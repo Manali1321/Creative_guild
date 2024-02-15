@@ -7,11 +7,11 @@
     <div class="form-container">
       <form @submit.prevent="handleSubmit" class="login-form">
         <div class="form-field-wrapper">
-          <label for="code" class="secondary-font">Reset code</label>
+          <label for="token" class="secondary-font">Reset code</label>
           <input
-            type="code"
-            id="code"
-            v-model="formData.code"
+            type="token"
+            id="token"
+            v-model="formData.token"
             placeholder="2FA788"
             class="cg-input"
             required
@@ -45,13 +45,13 @@
             </span>
           </div>
           <!-- Confirm password -->
-          <label for="cpassword" class="secondary-font">Confirm Password</label>
+          <label for="password_confirmation" class="secondary-font">Confirm Password</label>
           <div class="password-input-wrapper">
             <input
               :type="cShowPassword ? 'text' : 'password'"
-              id="cpassword"
+              id="password_confirmation"
               class="cg-input password-input"
-              v-model="formData.cpassword"
+              v-model="formData.password_confirmation"
               placeholder="****************"
               required
             />
@@ -82,24 +82,34 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+import router from '@/router'
 
 const message = ref('')
-const router = useRouter()
+const route = useRoute()
+
 const formData = ref({
-  code: '',
+  token: '',
   password: '',
-  cpassword: ''
+  password_confirmation: ''
 })
 const showPassword = ref(false)
 const cShowPassword = ref(false)
+const userEmail = route.params.email
 
 const handleSubmit = async () => {
+  const payload = {
+    token: formData.value.token,
+    email: userEmail,
+    password: formData.value.password,
+    password_confirmation: formData.value.password_confirmation
+  }
+  console.log(payload)
   try {
     const response = await fetch('http://localhost:8888/api/change_password', {
       method: 'POST',
-      body: JSON.stringify(formData.value),
+      body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -111,15 +121,12 @@ const handleSubmit = async () => {
     }
 
     const data = await response.json()
-    console.log(data.token)
-    console.log('reset token:', JSON.stringify(data.token))
     console.log(data)
-    // const token = JSON.stringify(data.token)
-    // localStorage.setItem('token', token)
+    console.log('Reset token:', JSON.stringify(data.token))
     router.push('/')
   } catch (error) {
     console.error('Error in change password:', error)
-    message.value = 'error'
+    message.value = 'Error'
   }
 }
 

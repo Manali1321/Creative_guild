@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Message;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
@@ -39,7 +36,7 @@ class ResetPasswordController extends Controller
         Mail::to($user->email)->send(new ResetPasswordMail($token));
 
         // Return success response
-        return response()->json(['message' => 'Password reset email sent successfully'], 200);
+        return response()->json(['message' => 'Password reset email sent successfully', 'user' => $user], 200);
     }
 
 }

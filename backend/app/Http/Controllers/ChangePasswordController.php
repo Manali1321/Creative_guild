@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\DB;
+
 
 class ChangePasswordController extends Controller
 {
@@ -15,21 +18,43 @@ class ChangePasswordController extends Controller
         $request->validate([
             'email' => 'required|email',
             'token' => 'required|string',
-            'password' => 'required|string|min:8|confirmed'
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        // Reset the password using the token
-        $response = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = bcrypt($password);
-                $user->save();
-            }
-        );
+        // Retrieve token from the password_reset_tokens table based on the user's email
+        $tokenRecord = DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->first();
 
-        // Check the response and return appropriate message
-        return $response == Password::PASSWORD_RESET
-            ? response()->json(['message' => 'Password reset successfully'], 200)
-            : response()->json(['message' => 'Failed to reset password'], 400);
+
+        // Ensure the token exists for the user's email
+        if (!$tokenRecord) {
+            return response()->json(['message' => 'Token not found'], 404);
+        }
+
+        // Check if the provided token matches the token from the password_reset_tokens table
+        if ($tokenRecord->token !== $request->token) {
+            return response()->json(['message' => 'Invalid token'], 400);
+        }
+
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+
+        // Ensure the user exists
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        // Reset the user's password
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        // Delete the token from the password_reset_tokens table after successful password reset
+        DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->delete();
+
+        return response()->json(['message' => 'Password reset successfully'], 200);
     }
+
 }

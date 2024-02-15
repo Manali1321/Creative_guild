@@ -86,9 +86,9 @@ const handleSubmit = async () => {
     }
 
     const data = await response.json()
-    console.log(data.user)
-    console.log('stored token:', JSON.stringify(data.token))
-    console.log(data)
+    // console.log(data.user)
+    // console.log('stored token:', JSON.stringify(data.token))
+    // console.log(data)
     const token = JSON.stringify(data.token)
     localStorage.setItem('token', token)
     router.push(`/profile/${data.user.id}`)

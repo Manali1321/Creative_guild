@@ -55,15 +55,10 @@ const handleSubmit = async () => {
     }
 
     const data = await response.json()
-    console.log(data.token)
-    console.log('reset token:', JSON.stringify(data.token))
-    console.log(data)
-    // const token = JSON.stringify(data.token)
-    // localStorage.setItem('token', token)
-    router.push('/change_password')
+    console.log(data.user)
+    router.push(`/change_password/${data.user.email}`)
   } catch (error) {
-    console.error('Error logging in:', error)
-    message.value = 'error'
+    message.value = 'Invalid Email'
   }
 }
 </script>
