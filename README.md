@@ -75,3 +75,7 @@ Creating component for frontend	1 Hour
 Back end: API developement	8 hours
 Deplyment and documentation	30 min
 
+**************************************************************** ATTENSION *****************************************************
+Work after timeline
+15th Feb work on backend for signup registration email and change password with token. (BOTH SOLVE)
+TOOK 1 HOUR TO SOLVE IT
